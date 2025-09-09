@@ -13,14 +13,12 @@ const Signup = () => {
 
   const onSubmit = (data) => {
     console.log("Signup Data:", data);
-    // api caling her 
+    // api caling her
 
     reset();
-
   };
 
-  const [showPassword,setShowPassword] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form
@@ -41,8 +39,8 @@ const Signup = () => {
           {...register("role", { required: "Role is required" })}
           defaultValue="Normal User"
         >
-          <option value="Normal User">User</option>
-          <option value="Store Owner">Store Owner</option>
+          <option value="User">User</option>
+          <option value="StoreOwner">StoreOwner</option>
           <option value="Admin">Admin</option>
         </select>
 
@@ -108,7 +106,7 @@ const Signup = () => {
         </label>
         <input
           id="password"
-          type={showPassword?"text":"password"}
+          type={showPassword ? "text" : "password"}
           placeholder="Enter your password"
           className="form-style w-full border p-2 rounded"
           {...register("password", {
@@ -120,15 +118,12 @@ const Signup = () => {
               message: "Must contain 1 uppercase & 1 special character",
             },
           })}
-
         />
-        <span className="absolute right-3 mt-3 cursor-pointer text-xl text-gray-600"
-            onClick={() => setShowPassword(!showPassword)}
-            >
-
-            {
-                showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />
-            }
+        <span
+          className="absolute right-3 mt-3 cursor-pointer text-xl text-gray-600"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
         </span>
         {errors.password && (
           <span className="ml-2 text-xs text-red-500">
@@ -159,12 +154,9 @@ const Signup = () => {
       </div>
 
       <div className="text-sm flex gap-x-2">
-        <p>
-
-        Already have an account?
-        </p>
+        <p>Already have an account?</p>
         <Link to="/login" className="text-blue-500">
-          Login Here 
+          Login Here
         </Link>
       </div>
 
