@@ -22,22 +22,16 @@ export const auth = async (req, res, next) => {
 
         try{
             const decode =  jwt.verify(token, JWT_SECRET);
-            console.log(decode);
+            console.log( "jwt decoded data ==> ",decode);
             req.user = decode;    
-            // user chya request madhe Token pathavle ====> mahnje pratyek user chya request madhe he token janar --> tyacha fayda as honar ki --> pudhcya konntya hi request user takel tyamadhe token asel ch 
-            
-            // const payload={
-            //     id:user._id,
-            //     email:user.email,
-            //     accountType:user.accountType
-            // };
-            // ------------> ha jo data user ne payload madhe store kela ahe na to apan acces karu shakkto 
+   
         }
-        catch(err) {
+        catch(error) {
           
             return res.status(401).json({
                 success:false,
                 message:'token is invalid',
+                error:error
             });
         }
         next();
@@ -47,6 +41,7 @@ export const auth = async (req, res, next) => {
         return res.status(401).json({
             success:false,
             message:'Something went wrong while validating the token',
+            error:error
         });
     }
 };
@@ -69,7 +64,8 @@ export const isAdmin = async(req,res,next)=>
     } catch (error) {
         return res.status(500).json({
             success:false,
-            message:"Admin role cannot be verified "
+            message:"Admin role cannot be verified ",
+            error:error
         })
     }
 }
@@ -89,7 +85,8 @@ export const isStoreOwner = async(req,res,next)=>{
     } catch (error) {
          return res.status(500).json({
             success:false,
-            message:"Admin role cannot be verified "
+            message:"Admin role cannot be verified ",
+            error:error
         })
     }
 }

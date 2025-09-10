@@ -10,6 +10,7 @@ async function connectDB() {
     console.log("✅ Database connected successfully");
   } catch (error) {
     console.error("❌ Database connection failed:", error);
+    // eslint-disable-next-line no-undef
     process.exit(1); // Exit process if DB connection fails
   }
 }
