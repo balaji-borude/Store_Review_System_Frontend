@@ -125,7 +125,7 @@ const ForgotPassword = () => {
       </div>
          <div className=" flex text-sm space-x-2 ">
                 <p>Know Password ?</p>
-                <Link to={"/login"} className="text-blue-500">
+                <Link to={"/"} className="text-blue-500">
                   Go to Login
                 </Link>
               </div>
