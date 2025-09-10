@@ -1,4 +1,6 @@
 
+
+
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Login from './pages/Login';
@@ -12,7 +14,7 @@ function App() {
    <div>
     <Routes>
       {/* <Route path='/' element={<Home/>}/> */}
-      <Route path='/login' element={<Login/>}/>
+      <Route path='/' element={<Login/>}/>
       <Route path='/signup' element={<Signup/>}/>
       <Route path='/ForgotPassword' element={<ForgotPassword/>}/>
 

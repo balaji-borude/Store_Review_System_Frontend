@@ -104,3 +104,32 @@ export const deleteStore = async (req, res) => {
     });
   }
 };
+
+// get all stores 
+export const getAllStores = async (req, res) => {
+  try {
+    const stores = await prisma.store.findMany({
+      orderBy: { createdAt: "desc" }, 
+    });
+
+    if (!stores || stores.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No stores found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Stores fetched successfully",
+      data: stores,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching stores",
+      error: error.message,
+    });
+  }
+};
+

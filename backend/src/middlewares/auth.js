@@ -60,14 +60,15 @@ export const auth = async (req, res, next) => {
 
     const token = authHeader.replace("Bearer ", "");
     console.log("Printing Token From Auth --> ", token);
+    console.log("Printing JWT from auth  ---> ",JWT_SECRET);
 
     // Verify token
     try {
       const decode = jwt.verify(token, JWT_SECRET);
-      console.log("jwt decoded data ==> ", decode);
+      console.log("jwt decoded data ==> ",decode);
 
       req.user = decode; // attach user payload to request
-      next();
+     
     } catch (error) {
       return res.status(401).json({
         success: false,
@@ -75,6 +76,7 @@ export const auth = async (req, res, next) => {
         error: error.message,
       });
     }
+    next();
   } catch (error) {
     return res.status(401).json({
       success: false,
