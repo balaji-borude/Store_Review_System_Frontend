@@ -4,7 +4,8 @@ import { PORT } from "./config/config.js";
 
 // importig Routes here 
 import authRoutes from "./routes/User.js";
-
+import storeRoutes from "./routes/Store.js";
+import ownerRoutes from "./routes/Owner.js"
 const app = express();
 
 // middlewares
@@ -13,6 +14,8 @@ app.use(express.json());
 
 // routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/store",storeRoutes);
+app.use("/api/v1/owner",ownerRoutes);
 
 
 // app.get("/", (req, res) => {
