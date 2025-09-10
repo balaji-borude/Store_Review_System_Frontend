@@ -5,7 +5,9 @@ import { PORT } from "./config/config.js";
 // importig Routes here 
 import authRoutes from "./routes/User.js";
 import storeRoutes from "./routes/Store.js";
-import ownerRoutes from "./routes/Owner.js"
+import ownerRoutes from "./routes/Owner.js";
+import ratingRoutes from './routes/Rating.js';
+
 const app = express();
 
 // middlewares
@@ -16,6 +18,7 @@ app.use(express.json());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/store",storeRoutes);
 app.use("/api/v1/owner",ownerRoutes);
+app.use("/api/v1/rating",ratingRoutes);
 
 
 // app.get("/", (req, res) => {
