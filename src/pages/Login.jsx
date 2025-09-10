@@ -25,9 +25,9 @@ const Login = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="p-6 max-w-md mx-auto space-y-4"
+      className="p-6 max-w-md mx-auto space-y-4 "
     >
-      <h2 className="text-2xl font-bold">Login</h2>
+      <h2 className="text-2xl font-bold ">Login</h2>
 
       {/* Email */}
       <div>
