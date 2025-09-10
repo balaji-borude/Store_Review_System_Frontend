@@ -6,6 +6,9 @@ const PrivateRoute = ({role,children}) => {
 
   const { user, token } = useSelector((state) => state.auth);
 
+  console.log("Printign the user form private route==>",user);
+  console.log("Printign the token form private route==>",token);
+
   // / path la --> login takll aeh 
   if (!token) {
     return <Navigate to="/" replace />;

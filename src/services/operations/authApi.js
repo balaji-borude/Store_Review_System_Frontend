@@ -62,7 +62,7 @@ export function LoginApi(formData,navigate){
             dispatch(setToken(response.data.token));
             // localStorage madhe token save kava lagel
             localStorage.setItem("token",JSON.stringify(response.data.token));
-            //localStorage.setItem("user",JSON.stringify(response.data.user));
+            localStorage.setItem("user",JSON.stringify(response.data.user));
 
             // setting user 
             dispatch(setUser(response.data.user));

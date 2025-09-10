@@ -3,7 +3,10 @@ import "./App.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
+
+import PublicRoute from "./components/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute";
+
 import AdminDashboard from "./components/core/Dashboard/AdminDashboard";
 import StoreOwnerDashboard from "./components/core/Dashboard/StoreOwnerDashboard";
 
@@ -14,10 +17,30 @@ function App() {
     <div>
       <Routes>
         {/* <Route path='/' element={<Home/>}/> */}
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/ForgotPassword" element={<ForgotPassword />} />
-
+ <Route
+    path="/"
+    element={
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
+    }
+  />
+  <Route
+    path="/signup"
+    element={
+      <PublicRoute>
+        <Signup />
+      </PublicRoute>
+    }
+  />
+  <Route
+    path="/forgotpassword"
+    element={
+      <PublicRoute>
+        <ForgotPassword />
+      </PublicRoute>
+    }
+  />
         <Route
           path="/dashboard/admin"
           element={
