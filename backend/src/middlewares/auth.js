@@ -2,48 +2,86 @@ import { JWT_SECRET } from "../config/config.js";
 import jwt from "jsonwebtoken";
 
 // authentication middleware
-export const auth = async (req, res, next) => {
-    try{
-        console.log("Entering in Auth middleware")
-        //extract token
-        const token =req.header("Authorization").replace("Bearer ", "");
+// export const auth = async (req, res, next) => {
+//     try{
+//         console.log("Entering in Auth middleware")
+//         //extract token
+//         // const token =req.header("Authorization").replace("Bearer ", "");
+//         const token = req.header("Authorization").replace("Bearer ", "");
 
-        console.log("Printing Token From Auth --> ", token);
+//         console.log("Printing Token From Auth --> ", token);
 
-        //if token missing, then return response
-        if(!token) {
-            return res.status(401).json({
-                success:false,
-                message:'TOken is missing',
-            });
-        }
+//         //if token missing, then return response
+//         if(!token) {
+//             return res.status(401).json({
+//                 success:false,
+//                 message:'TOken is missing',
+//             });
+//         }
 
-
-
-        try{
-            const decode =  jwt.verify(token, JWT_SECRET);
-            console.log( "jwt decoded data ==> ",decode);
-            req.user = decode;    
-   
-        }
-        catch(error) {
+//         try{
+//             const decode =  jwt.verify(token, JWT_SECRET);
+//             console.log( "jwt decoded data ==> ",decode);
+//             req.user = decode;    
+            
+//             next();
+//         }
+//         catch(error) {
           
-            return res.status(401).json({
-                success:false,
-                message:'token is invalid',
-                error:error
-            });
-        }
-        next();
+//             return res.status(401).json({
+//                 success:false,
+//                 message:'token is invalid',
+//                 error:error
+//             });
+//         }
+      
+//     }
+//     catch(error) {  
+//         return res.status(401).json({
+//             success:false,
+//             message:'Something went wrong while validating the token',
+//             error:error
+//         });
+//     }
+// };
 
+export const auth = async (req, res, next) => {
+  try {
+    console.log("Entering in Auth middleware");
+
+    // Extract token safely
+    const authHeader = req.header("Authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "Token is missing or malformed",
+      });
     }
-    catch(error) {  
-        return res.status(401).json({
-            success:false,
-            message:'Something went wrong while validating the token',
-            error:error
-        });
+
+    const token = authHeader.replace("Bearer ", "");
+    console.log("Printing Token From Auth --> ", token);
+
+    // Verify token
+    try {
+      const decode = jwt.verify(token, JWT_SECRET);
+      console.log("jwt decoded data ==> ", decode);
+
+      req.user = decode; // attach user payload to request
+      next();
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        message: "Token is invalid",
+        error: error.message,
+      });
     }
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Something went wrong while validating the token",
+      error: error.message,
+    });
+  }
 };
 
 
