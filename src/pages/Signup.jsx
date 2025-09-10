@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { signUp } from "../services/operations/authApi";
+
+
 
 const Signup = () => {
   const {
@@ -11,9 +17,13 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
     console.log("Signup Data:", data);
-    // api caling her
+    dispatch(signUp(data, navigate));
 
     reset();
   };

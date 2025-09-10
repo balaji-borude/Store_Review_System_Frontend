@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
-
+import { useDispatch } from "react-redux";
+import {LoginApi} from '../services/operations/authApi'
 // import { AiOutlineEyeInvisible } from "react-icons/ai";
 const Login = () => {
   const {
@@ -13,9 +14,13 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
     console.log("Form Data--> ", data);
     // api caling her
+    dispatch(LoginApi(data,navigate)); // login fucntion call
 
     reset();
   };
