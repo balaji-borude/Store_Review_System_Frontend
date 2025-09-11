@@ -44,6 +44,7 @@ model User {
   ratings     Rating[]  // ratings submitted by this user
 }
 
+// TODO --> add one field --> image store image url in db 
 model Store {
   id          Int       @id @default(autoincrement())
   name        String    @db.VarChar(60)
