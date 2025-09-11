@@ -1,18 +1,16 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const OpenRoute = ({ children }) => {
-  const { token, user } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
-  // user is logged in then ---> redirect based on Their role
-  if (token && user) {
-    if (user.role === "Admin") return <Navigate to="/dashboard/admin" replace />;
-    if (user.role === "StoreOwner") return <Navigate to="/dashboard/storeowner" replace />;
-    return <Navigate to="/dashboard/user" replace />;
+  if (token) {
+    // already logged in → block access to login/signup
+    return <Navigate to="/dashboard" replace />;
   }
 
-  return children; // user not logged in, show public page
+  // no token → allow access
+  return children;
 };
 
 export default OpenRoute;

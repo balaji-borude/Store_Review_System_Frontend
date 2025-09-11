@@ -6,7 +6,13 @@ import toast from "react-hot-toast";
 import { clearToken, setUser } from "../../slices/authSlice";
 
 // React Icons
-import { FaStore, FaUsers, FaSignOutAlt, FaTachometerAlt, FaEye } from "react-icons/fa";
+import {
+  FaStore,
+  FaUsers,
+  FaSignOutAlt,
+  FaTachometerAlt,
+  FaEye,
+} from "react-icons/fa";
 // import "react-pro-sidebar/dist/css/pro-sidebar.css"; // for v1
 
 function SideBar() {
@@ -26,14 +32,14 @@ function SideBar() {
     <div className="h-screen">
       <Sidebar
         className="h-full"
-        backgroundColor="#1f2937" 
+        backgroundColor="#1f2937"
         // breakPoint="md"
       >
         <Menu
           menuItemStyles={{
             button: {
               padding: "12px",
-              color: "#d1d5db", 
+              color: "#d1d5db",
               "&:hover": {
                 backgroundColor: "#374151",
                 color: "#fff",
@@ -44,9 +50,8 @@ function SideBar() {
           {/* Admin role */}
           {user?.role === "Admin" && (
             <>
-                <MenuItem>
-                    Admin Dashboard
-                </MenuItem>
+              <MenuItem>Admin Dashboard</MenuItem>
+              
               <MenuItem
                 icon={<FaTachometerAlt />}
                 component={<NavLink to="/dashboard/admin/overview" />}
@@ -59,7 +64,7 @@ function SideBar() {
               >
                 Manage Stores
               </MenuItem>
-              
+
               <MenuItem
                 icon={<FaUsers />}
                 component={<NavLink to="/dashboard/admin/users" />}
@@ -72,15 +77,13 @@ function SideBar() {
           {/* User role */}
           {user?.role === "User" && (
             <>
-            <MenuItem>
-                User Dashboard
-            </MenuItem>
-            <MenuItem
-              icon={<FaStore />}
-              component={<NavLink to="/dashboard/stores" />}
-            >
-              View Stores
-            </MenuItem>
+              <MenuItem>User Dashboard</MenuItem>
+              <MenuItem
+                icon={<FaStore />}
+                component={<NavLink to="/dashboard/stores" />}
+              >
+                View Stores
+              </MenuItem>
             </>
           )}
 

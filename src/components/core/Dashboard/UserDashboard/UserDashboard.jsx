@@ -1,9 +1,12 @@
 import React from 'react'
-import SideBar from '../../../common/SideBar'
+// import SideBar from '../../../common/SideBar'
+import UserStores from './UserStores'
+
 const UserDashboard = () => {
+
   return (
     <div>
-      {/* <SideBar/> */}
+      {/* <UserDashboard/> */}
        This is UserDashboard baby 
       </div>
   )
