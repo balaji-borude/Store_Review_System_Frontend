@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 
-import PublicRoute from "./components/PublicRoute";
+import OpenRoute from "./components/OpenRoute";
 import PrivateRoute from "./components/PrivateRoute";
 
 import AdminDashboard from "./components/core/Dashboard/AdminDashboard";
@@ -17,30 +17,33 @@ function App() {
     <div>
       <Routes>
         {/* <Route path='/' element={<Home/>}/> */}
- <Route
-    path="/"
-    element={
-      <PublicRoute>
-        <Login />
-      </PublicRoute>
-    }
-  />
-  <Route
-    path="/signup"
-    element={
-      <PublicRoute>
-        <Signup />
-      </PublicRoute>
-    }
-  />
-  <Route
-    path="/forgotpassword"
-    element={
-      <PublicRoute>
-        <ForgotPassword />
-      </PublicRoute>
-    }
-  />
+        <Route
+          path="/"
+          element={
+            <OpenRoute>
+              <Login />
+            </OpenRoute>
+          }
+        />
+
+        <Route
+          path="/signup"
+          element={
+            <OpenRoute>
+              <Signup />
+            </OpenRoute>
+          }
+        />
+        <Route
+          path="/forgotpassword"
+          element={
+            <OpenRoute>
+              <ForgotPassword />
+            </OpenRoute>
+          }
+        />
+
+        {/* Private Routes  */}
         <Route
           path="/dashboard/admin"
           element={
