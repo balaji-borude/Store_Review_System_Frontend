@@ -7,11 +7,23 @@ import ForgotPassword from "./pages/ForgotPassword";
 import OpenRoute from "./components/OpenRoute";
 import PrivateRoute from "./components/PrivateRoute";
 
-import AdminDashboard from "./components/core/Dashboard/AdminDashboard";
-import StoreOwnerDashboard from "./components/core/Dashboard/StoreOwnerDashboard";
+import AdminDashboard from "./components/core/Dashboard/AdminDashboard/AdminDashboard";
+import StoreOwnerDashboard from "./components/core/Dashboard/StoreOwnerDashboard/StoreOwnerDashboard";
 
-import UserDashboard from "./components/core/Dashboard/UserDashboard";
+import UserDashboard from "./components/core/Dashboard/UserDashboard/UserDashboard";
 import DashboardLayout from "./components/core/Dashboard/DashboardLayout";
+
+// Admin Routes 
+import AdminStores from "./components/core/Dashboard/AdminDashboard/AdminStores";
+import AdminUsers from "./components/core/Dashboard/AdminDashboard/AdminUsers";
+
+// user Routes 
+import UserStores from "./components/core/Dashboard/UserDashboard/UserStores";
+
+// owner routes 
+import AllReviews from "./components/core/Dashboard/StoreOwnerDashboard/AllReviews";
+
+
 
 function App() {
   return (
@@ -43,52 +55,78 @@ function App() {
             </OpenRoute>
           }
         />
-
-        {/* Private Routes  */}
+        {/* Dashboard layout with nested routes */}
         <Route
-          path="/dashboard/admin"
+          path="/dashboard"
           element={
-            <PrivateRoute role="Admin">
-              <AdminDashboard />
+            <PrivateRoute>
+              <DashboardLayout />
             </PrivateRoute>
           }
-        />
+        >
+          {/* Admin */}
+          <Route
+            path="admin/overview"
+            element={
+              <PrivateRoute role="Admin">
+                <AdminDashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="admin/stores"
+            element={
+              <PrivateRoute role="Admin">
+                <AdminStores />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="admin/users"
+            element={
+              <PrivateRoute role="Admin">
+                <AdminUsers />
+              </PrivateRoute>
+            }
+          />
 
-        <Route
-          path="/dashboard/user"
-          element={
-            <PrivateRoute role="User">
-              <UserDashboard />
-            </PrivateRoute>
-          }
-        />
+          {/* User */}
+          <Route
+            path="user"
+            element={
+              <PrivateRoute role="User">
+                <UserDashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="stores"
+            element={
+              <PrivateRoute role="User">
+                <UserStores />
+              </PrivateRoute>
+            }
+          />
 
-        <Route
-          path="/dashboard/storeowner"
-          element={
-            <PrivateRoute role="StoreOwner">
-              <StoreOwnerDashboard />
-            </PrivateRoute>
-          }
-        />
-
-        {/* Dashboard layout  */}
-        <Route path="/dashboard" element={<DashboardLayout />}></Route>
-
-        {/* Nested Route for Admin */}
-
-
-        {/* nested route for user */}
-
-
-
-        {/* nested route for store owner */}
-
-
-
-
-
-
+          {/* Store Owner */}
+          <Route
+            path="storeowner"
+            element={
+              <PrivateRoute role="StoreOwner">
+                <StoreOwnerDashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="allReview"
+            element={
+              <PrivateRoute role="StoreOwner">
+                <AllReviews />
+              </PrivateRoute>
+            }
+          />
+            
+        </Route>
 
         <Route
           path="*"
@@ -99,10 +137,6 @@ function App() {
           }
         />
       </Routes>
-
-
-
-
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import SideBar from '../../common/SideBar'
+import SideBar from '../../../common/SideBar'
 const UserDashboard = () => {
   return (
     <div>
