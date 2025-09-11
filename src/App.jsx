@@ -55,6 +55,8 @@ function App() {
             </OpenRoute>
           }
         />
+
+
         {/* Dashboard layout with nested routes */}
         <Route
           path="/dashboard"
@@ -64,6 +66,7 @@ function App() {
             </PrivateRoute>
           }
         >
+
           {/* Admin */}
           <Route
             path="admin/overview"

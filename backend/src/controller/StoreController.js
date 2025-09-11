@@ -112,12 +112,12 @@ export const getAllStores = async (req, res) => {
       orderBy: { createdAt: "desc" }, 
     });
 
-    if (!stores || stores.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No stores found",
-      });
-    }
+    // if (!stores || stores.length === 0) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "No stores found",
+    //   });
+    // }
 
     return res.status(200).json({
       success: true,

@@ -73,7 +73,7 @@ const Signup = () => {
           className="form-style w-full border p-2 rounded"
           {...register("name", {
             required: "Name is required",
-            minLength: { value: 20, message: "Min 20 characters required" },
+            // minLength: { value: 20, message: "Min 20 characters required" },
             maxLength: { value: 60, message: "Max 60 characters allowed" },
           })}
         />

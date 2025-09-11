@@ -70,25 +70,19 @@ export const createRating = async (req, res) => {
 
 
 // Get All Ratings for a Store
+// Get all ratings in DB (and count)
 export const getAllRatings = async (req, res) => {
   try {
+    const ratings = await prisma.rating.findMany();
 
-    // TODO ==> 
-    // const { storeId } = req.params;  
-    const {storeId} = req.body;
-
-    const ratings = await prisma.rating.findMany({
-      where: { storeId: parseInt(storeId) },
-      include: {
-        user: { select: { id: true, name: true, email: true } },
-      },
-    });
+    const count = await prisma.rating.count();
 
     return res.json({
       success: true,
-      count: ratings.length,
+      totalRatings: count,
       data: ratings,
     });
+    
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -99,40 +93,87 @@ export const getAllRatings = async (req, res) => {
 };
 
 
-// Get Average Rating for a Store
-export const getAverageRating = async (req, res) => {
-  try {
-    const { storeId } = req.params;
+// // Get Average Rating for a Store
+// export const getAverageRating = async (req, res) => {
+//   try {
+//     const { storeId } = req.params;
 
-    //validation
-    if(!storeId){
-        return res.status(400).json({
-            success:false,
-            message:"StoreId is required "
-        })
-    };
+//     //validation
+//     if(!storeId){
+//         return res.status(400).json({
+//             success:false,
+//             message:"StoreId is required "
+//         })
+//     };
 
-    // aggregate funcion cha user karun avg rating find keli 
-    const avg = await prisma.rating.aggregate({
-      where: { storeId: parseInt(storeId) },
-      _avg: { score: true },
-      _count: { score: true },
-    });
+//     // aggregate funcion cha user karun avg rating find keli 
+//     const avg = await prisma.rating.aggregate({
+//       where: { storeId: parseInt(storeId) },
+//       _avg: { score: true },
+//       _count: { score: true },
+//     });
 
-    // total rating avg rating return keli res madhe ==<
-    return res.status(200).json({
-      success: true,
-      message:"Avg ratingf is Fetch succesffully",
-      storeId: parseInt(storeId),
-      averageRating: avg._avg.score || 0,
-      totalRatings: avg._count.score,
-    });
+//     // total rating avg rating return keli res madhe ==<
+//     return res.status(200).json({
+//       success: true,
+//       message:"Avg ratingf is Fetch succesffully",
+//       storeId: parseInt(storeId),
+//       averageRating: avg._avg.score || 0,
+//       totalRatings: avg._count.score,
+//     });
 
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Error calculating average rating",
-      error: error.message,
-    });
-  }
-};
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       message: "Error calculating average rating",
+//       error: error.message,
+//     });
+//   }
+// };
+
+
+// export const getAllRatings = async (req, res) => {
+//   try {
+//     const { storeId } = req.params; // use params (better for REST APIs)
+
+//     if (!storeId) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "storeId is required",
+//       });
+//     }
+
+//     // fetch all ratings
+//     const ratings = await prisma.rating.findMany({
+//       where: { storeId: parseInt(storeId) },
+//       include: {
+//         user: { select: { id: true, name: true, email: true } },
+//       },
+//       orderBy: { createdAt: "desc" },
+//     });
+
+//     // calculate average & count in one query
+//     const aggregate = await prisma.rating.aggregate({
+//       where: { storeId: parseInt(storeId) },
+//       _avg: { score: true },
+//       _count: { score: true },
+//     });
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Ratings fetched successfully",
+//       storeId: parseInt(storeId),
+//       ratings,
+//       totalRatings: aggregate._count.score,
+//       averageRating: aggregate._avg.score || 0,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching ratings:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Error fetching ratings and average",
+//       error: error.message,
+//     });
+//   }
+// };
+

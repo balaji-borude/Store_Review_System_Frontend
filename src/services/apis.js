@@ -12,5 +12,13 @@ export const endpoints={
 };
 
 export const StoreEndpoints={
-    GET_ALL_STORE:BASE_URL + "/store/getAllStores"
+    GET_ALL_STORE:BASE_URL+"/store/getAllStores",
+
+    // Get rating here 
+    GET_ALL_RATING:BASE_URL+"/rating/getAllRatings"
+};
+
+
+export const userEndpoints ={
+    GET_ALL_USERS:BASE_URL+"/auth/getAllUser"
 }
