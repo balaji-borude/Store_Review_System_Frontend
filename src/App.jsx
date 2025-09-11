@@ -11,6 +11,7 @@ import AdminDashboard from "./components/core/Dashboard/AdminDashboard";
 import StoreOwnerDashboard from "./components/core/Dashboard/StoreOwnerDashboard";
 
 import UserDashboard from "./components/core/Dashboard/UserDashboard";
+import DashboardLayout from "./components/core/Dashboard/DashboardLayout";
 
 function App() {
   return (
@@ -71,7 +72,24 @@ function App() {
           }
         />
 
-        {/* Not Found  */}
+        {/* Dashboard layout  */}
+        <Route path="/dashboard" element={<DashboardLayout />}></Route>
+
+        {/* Nested Route for Admin */}
+
+
+        {/* nested route for user */}
+
+
+
+        {/* nested route for store owner */}
+
+
+
+
+
+
+
         <Route
           path="*"
           element={
@@ -81,6 +99,10 @@ function App() {
           }
         />
       </Routes>
+
+
+
+
     </div>
   );
 }
