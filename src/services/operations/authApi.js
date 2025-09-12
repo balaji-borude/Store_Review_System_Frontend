@@ -3,7 +3,7 @@ import { apiConnector } from "../apiConnector";
 import { endpoints, userEndpoints } from "../apis";
 import { setLoading, setToken, setUser } from "../../slices/authSlice";
 
-const { SIGNUP_API, LOGIN_API } = endpoints;
+const { SIGNUP_API, LOGIN_API, CHANGE_PASSWORD } = endpoints;
 
 const { GET_ALL_USERS } = userEndpoints;
 
@@ -101,7 +101,7 @@ export function getAllUser() {
       }
 
       //   dispatch(setUser(response.data.data)); --> this line is culprit
-       console.log("response of Get all users ==>",response.data)
+      console.log("response of Get all users ==>", response.data);
       return response.data; // ✅ return data, no navigate
     } catch (error) {
       console.error("GET ALL USERS API ERROR", error);
@@ -112,9 +112,9 @@ export function getAllUser() {
       toast.dismiss(toastId);
     }
   };
-};
+}
 
-// signup by admin 
+// signup by admin
 export function signUpByAdmin(formData) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading");
@@ -131,13 +131,49 @@ export function signUpByAdmin(formData) {
         throw new Error(response.data.message);
       }
       toast.success("Signup Successful");
-      
     } catch (error) {
       console.log("SIGNUP API ERROR............", error);
       toast.error("Signup Failed");
-      
+    }finally
+    {
+
+      dispatch(setLoading(false));
+      toast.dismiss(toastId);
     }
-    dispatch(setLoading(false));
-    toast.dismiss(toastId);
   };
 }
+
+// change password
+// services/operations/authApi.js
+
+// In authApi.js
+export const changePasswordApi = (passwordData, token) => {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading");
+    dispatch(setLoading(true));
+   
+    try {
+      const response = await apiConnector(
+        "PUT",
+        CHANGE_PASSWORD,
+        passwordData,
+        { Authorization: `Bearer ${token}` }
+      );
+
+      console.log("CHANGE PASSWORD  API RESPONSE............", response);
+            if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+       toast.success("Password change  Successfuly");
+
+      return response;
+    } catch (error) {
+      console.log("CHANGE PASSWORD API ERROR............", error);
+      toast.error("Can not able to change Password  ");
+    }finally{
+
+      dispatch(setLoading(false));
+      toast.dismiss(toastId);
+    }
+  };
+};

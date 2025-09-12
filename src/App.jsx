@@ -8,7 +8,7 @@ import OpenRoute from "./components/OpenRoute";
 import PrivateRoute from "./components/PrivateRoute";
 
 import AdminDashboard from "./components/core/Dashboard/AdminDashboard/AdminDashboard";
-import StoreOwnerDashboard from "./components/core/Dashboard/StoreOwnerDashboard/StoreOwnerDashboard";
+import StoreOwnerChangePass from "./components/core/Dashboard/StoreOwnerDashboard/StoreOwnerChangePass";
 
 import UserDashboard from "./components/core/Dashboard/UserDashboard/UserDashboard";
 import DashboardLayout from "./components/core/Dashboard/DashboardLayout";
@@ -112,14 +112,14 @@ function App() {
           />
 
           {/* Store Owner */}
-          {/* <Route
-            path="storeowner"
+          <Route
+            path="changepassword"
             element={
               <PrivateRoute role="StoreOwner">
-                <StoreOwnerDashboard />
+                <StoreOwnerChangePass />
               </PrivateRoute>
             }
-          /> */}
+          />
           <Route
             path="allRating"
             element={

@@ -7,14 +7,20 @@ export const createStore = async (req, res) => {
     const { name, email, address, ownerId } = req.body;
 
     // validation
-    if(!name||!email||!address|| !ownerId){
-        return res.status(400).json({
-            success:false,
-            message:"Please Fill ALl the Fields"
-        })
+    if (!name || !email || !address || !ownerId) {
+      return res.status(400).json({
+        success: false,
+        message: "Please Fill ALl the Fields",
+      });
     }
 
-    console.log("Printing the create store data", name,email,address,ownerId);
+    console.log(
+      "Printing the create store data",
+      name,
+      email,
+      address,
+      ownerId
+    );
     // createh the store
     const store = await prisma.store.create({
       data: {
@@ -25,17 +31,16 @@ export const createStore = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ 
-        success: true, 
-        message:"Store Created Succesfuully",
-        data: store 
+    return res.status(200).json({
+      success: true,
+      message: "Store Created Succesfuully",
+      data: store,
     });
-
   } catch (error) {
-    return res.status(500).json({ 
-        success: false, 
-        message: "Isuue in Store Creation", 
-        error:error.message 
+    return res.status(500).json({
+      success: false,
+      message: "Isuue in Store Creation",
+      error: error.message,
     });
   }
 };
@@ -46,30 +51,28 @@ export const updateStore = async (req, res) => {
     const { id } = req.params;
     const { name, address } = req.body;
 
-
     //validating
-    if(!id || !name||!address){
-         return res.status(400).json({
-            success:false,
-            message:"Please Fill ALl the Fields"
-        })
-    };
+    if (!id || !name || !address) {
+      return res.status(400).json({
+        success: false,
+        message: "Please Fill ALl the Fields",
+      });
+    }
 
     const store = await prisma.store.update({
       where: { id: parseInt(id) },
       data: { name, address },
     });
 
-    return res.json({ 
-        success: true,
-        message:"Store is Updated Succesfully",
-        data: store
+    return res.json({
+      success: true,
+      message: "Store is Updated Succesfully",
+      data: store,
     });
-
   } catch (error) {
-    return res.status(500).json({ 
-        success: false, 
-        message: error.message 
+    return res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };
@@ -79,38 +82,36 @@ export const deleteStore = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if(!id){
-        return res.status(400).json({
-            success:false,
-            message:"Store Id is Not Found ",
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Store Id is Not Found ",
+      });
+    }
 
-        })
-    };
-
-    // delete the store 
+    // delete the store
     await prisma.store.delete({
       where: { id: parseInt(id) },
     });
 
-    return res.json({ 
-        success: true, 
-        message: "Store deleted succesfully "
+    return res.json({
+      success: true,
+      message: "Store deleted succesfully ",
     });
-
   } catch (err) {
-    return res.status(500).json({ 
-        success: false, 
-        message: "Isuue is delting the Store ",
-        error:err
+    return res.status(500).json({
+      success: false,
+      message: "Isuue is delting the Store ",
+      error: err,
     });
   }
 };
 
-// get all stores 
+// get all stores
 // export const getAllStores = async (req, res) => {
 //   try {
 //     const stores = await prisma.store.findMany({
-//       orderBy: { createdAt: "desc" }, 
+//       orderBy: { createdAt: "desc" },
 //     });
 
 //     // if (!stores || stores.length === 0) {
@@ -134,7 +135,7 @@ export const deleteStore = async (req, res) => {
 //   }
 // };
 
-// with avg rating 
+// with avg rating
 export const getAllStores = async (req, res) => {
   try {
     const stores = await prisma.store.findMany({
@@ -171,5 +172,27 @@ export const getAllStores = async (req, res) => {
       message: "Error fetching stores",
       error: error.message,
     });
+  }
+};
+
+// get GET /store/getMyStores --> this is for gettingthe store id to call on the owener dashboard
+export const getMyStores = async (req, res) => {
+  try {
+    const ownerId = req.user.id; 
+    if(!ownerId){
+      return res.status(400).json({
+        success:false,
+        message:"Owner Id not found "
+      })
+    }
+    const stores = await prisma.store.findMany({
+      where: { ownerId },
+    });
+
+    res.status(200).json({ 
+      success: true, 
+      stores });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 };

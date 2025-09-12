@@ -1,23 +1,35 @@
-// components/UserStoreRatings.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getStoreRatingsApi } from "../../../../services/operations/storeApi";
+import { getMyStores, getStoreRatingsApi } from "../../../../services/operations/storeApi";
 import { FaUserCircle } from "react-icons/fa";
 
-const UserStoreRatings = ({ storeId }) => {
+const UserStoreRatings = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
+  const {  selectedStoreId } = useSelector((state) => state.store);
   const [ratings, setRatings] = useState([]);
 
-   useEffect(() => {
+  // Fetch owner's all stores here to get the owner Id 
+  useEffect(() => {
+    if (token) {
+     const res = dispatch(getMyStores(token));
+     console.log("printing the response of get my stores  -->",res )
+    }
+  }, [dispatch, token]);
+
+  // Fetch ratings whenever selectedStoreId changes
+  useEffect(() => {
+    if (!selectedStoreId) return;
+
     const fetchRatings = async () => {
-      const res = await dispatch(getStoreRatingsApi(storeId, token));
+      const res = await dispatch(getStoreRatingsApi(selectedStoreId, token));
       if (res) {
         setRatings(res);
       }
     };
+
     fetchRatings();
-  }, [dispatch, storeId, token]);
+  }, [dispatch, selectedStoreId, token]);
 
   return (
     <div className="mt-6 bg-gray-50 border rounded-xl p-4">
@@ -39,12 +51,12 @@ const UserStoreRatings = ({ storeId }) => {
                     {rating.userId?.name || "Anonymous"}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {rating.userId?.email}
+                    {rating.userId?.email || ""}
                   </p>
                 </div>
               </div>
               <span className="text-sm font-semibold text-yellow-600">
-                ⭐ {rating.score}/5
+                {rating.score}/5
               </span>
             </li>
           ))}

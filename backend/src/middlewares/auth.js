@@ -59,6 +59,8 @@ export const auth = async (req, res, next) => {
     }
 
     const token = authHeader.replace("Bearer ", "");
+
+
     console.log("Printing Token From Auth --> ", token);
     console.log("Printing JWT from auth  ---> ",JWT_SECRET);
 
