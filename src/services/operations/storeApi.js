@@ -1,13 +1,14 @@
 import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { StoreEndpoints } from "../apis";
-import { setLoading, setStores } from "../../slices/storeSlice";
+import { setLoading, setStores,setSelectedStore } from "../../slices/storeSlice";
 
 const { GET_ALL_STORE,
   GET_ALL_RATING ,
   CREATE_STORE,
   CREATE_RATING,
-    GET_STORE_RATINGS
+    GET_STORE_RATINGS,
+    GET_MY_STORE
 
 } = StoreEndpoints;
 
@@ -166,6 +167,48 @@ export function getStoreRatingsApi(storeId, token) {
     }
   };
 };
+
+
+//get my stores
+
+
+
+export function getMyStores(token) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Fetching your stores...");
+    dispatch(setLoading(true));
+
+    try {
+      const response = await apiConnector("GET", GET_MY_STORE, null, {
+        Authorization: `Bearer ${token}`,
+      });
+
+      console.log("GET MY STORES API RESPONSE:", response);
+
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+
+      const stores = response.data.stores;
+
+      dispatch(setStores(stores));
+      if (stores.length > 0) {
+        dispatch(setSelectedStore(stores[0].id)); 
+      }
+
+      toast.success("Stores fetched successfully!");
+      return stores;
+    } catch (error) {
+      console.error("GET MY STORES API ERROR:", error);
+      
+      toast.error("Failed to fetch stores");
+      return null;
+    } finally {
+      dispatch(setLoading(false));
+      toast.dismiss(toastId);
+    }
+  };
+}
 
 
 

@@ -12,6 +12,7 @@ import {
   FaSignOutAlt,
   FaTachometerAlt,
   FaEye,
+  FaLock
 } from "react-icons/fa";
 // import "react-pro-sidebar/dist/css/pro-sidebar.css"; // for v1
 
@@ -93,11 +94,19 @@ function SideBar() {
 
             <>
             <MenuItem>StoreOwner Dashboard</MenuItem>
+
               <MenuItem
                 icon={<FaEye />}
-                component={<NavLink to="/dashboard/allReview" />}
+                component={<NavLink to="/dashboard/allRating" />}
               >
                 View All Ratings
+              </MenuItem>
+
+                            <MenuItem
+                 icon={<FaLock />}
+                component={<NavLink to="/dashboard/changepassword" />}
+              >
+                Change Password
               </MenuItem>
             </>
           )
