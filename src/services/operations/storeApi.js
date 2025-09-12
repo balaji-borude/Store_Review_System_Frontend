@@ -156,7 +156,7 @@ export function getStoreRatingsApi(storeId, token) {
       toast.success("Fetched ratings successfully");
 
       // return list of users who rated
-      return response.data.users;
+      return response.data;
     } catch (error) {
       console.log("GET STORE RATINGS API ERROR............", error);
       toast.error("Failed to fetch ratings");
@@ -170,9 +170,6 @@ export function getStoreRatingsApi(storeId, token) {
 
 
 //get my stores
-
-
-
 export function getMyStores(token) {
   return async (dispatch) => {
     const toastId = toast.loading("Fetching your stores...");
@@ -183,7 +180,7 @@ export function getMyStores(token) {
         Authorization: `Bearer ${token}`,
       });
 
-      console.log("GET MY STORES API RESPONSE:", response);
+      console.log("GET MY STORES API RESPONSE..............", response);
 
       if (!response.data.success) {
         throw new Error(response.data.message);
