@@ -10,7 +10,8 @@ import { getAllUser } from "../../../../services/operations/authApi";
 import { FaUsers } from "react-icons/fa";
 import { FaStore } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
-import { useDispatch,  } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const AdminDashboard = () => {
   // caling token
@@ -21,7 +22,8 @@ const AdminDashboard = () => {
   const [totalRating, setTotalRating] = useState(0);
 
   const dispatch = useDispatch();
-  
+  const {token} = useSelector((state)=>state.auth);
+
   useEffect(() => {
     const fetchStores = async () => {
       const stores = await dispatch(getAllStores());
@@ -31,7 +33,7 @@ const AdminDashboard = () => {
     };
     // getting all the store count
     const totalrating = async () => {
-      const rating = await dispatch(getAllRatings());
+      const rating = await dispatch(getAllRatings(token));
       // console.log("printing rating -->", rating);
       if (rating) {
         setTotalRating(rating.length);
@@ -72,20 +74,26 @@ const AdminDashboard = () => {
       icon: <FaStar className="text-yellow-500 text-3xl" />,
     },
   ];
+  
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-      {cardData.map((card, index) => (
-        <div
-          key={index}
-          className="flex justify-between items-center bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition-all"
-        >
-          <div>
-            <h3 className="text-gray-600 text-sm font-medium">{card.title}</h3>
-            <p className="text-2xl font-bold text-gray-900">{card.value}</p>
+    <div>
+
+      <h1 className="text-2xl font-semibold mb-6 text-center ">Admin Dashboard Overview </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+        {cardData.map((card, index) => (
+          <div
+            key={index}
+            className="flex justify-between items-center bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition-all"
+          >
+            <div>
+              <h3 className="text-gray-600 text-sm font-medium">{card.title}</h3>
+              <p className="text-2xl font-bold text-gray-900">{card.value}</p>
+            </div>
+            <div className="bg-gray-100 rounded-full p-3">{card.icon}</div>
           </div>
-          <div className="bg-gray-100 rounded-full p-3">{card.icon}</div>
-        </div>
-      ))}
+        ))}
+      </div>
+
     </div>
   );
 };

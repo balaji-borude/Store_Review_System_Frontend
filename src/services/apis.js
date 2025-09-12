@@ -13,6 +13,7 @@ export const endpoints={
 
 export const StoreEndpoints={
     GET_ALL_STORE:BASE_URL+"/store/getAllStores",
+    CREATE_STORE:BASE_URL+"/store/createStore",
 
     // Get rating here 
     GET_ALL_RATING:BASE_URL+"/rating/getAllRatings"

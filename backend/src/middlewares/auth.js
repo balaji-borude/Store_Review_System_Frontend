@@ -93,6 +93,8 @@ export const isAdmin = async(req,res,next)=>
     try {
         // fetching role from request and checking the role is student  
         if(req.user.role !== "Admin"){
+          req.userId = req.user.id;
+          req.role = req.user.role;
             return res.status(401).json({
                 success:false,
                 message:"This is a Protected Route for Admin"

@@ -90,31 +90,54 @@ export function LoginApi(formData, navigate) {
 // Get all user
 export function getAllUser() {
   return async (dispatch) => {
-     const toastId = toast.loading("Loading");
+    const toastId = toast.loading("Loading");
     dispatch(setLoading(true));
 
     try {
-      const response = await apiConnector(
-        "GET",
-        GET_ALL_USERS,
-        {},
-    
-      );
+      const response = await apiConnector("GET", GET_ALL_USERS, {});
 
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
 
-    //   dispatch(setUser(response.data.data)); --> this line is culprit 
-    //   console.log("response of Get all users ==>",response.data)
+      //   dispatch(setUser(response.data.data)); --> this line is culprit
+       console.log("response of Get all users ==>",response.data)
       return response.data; // ✅ return data, no navigate
     } catch (error) {
       console.error("GET ALL USERS API ERROR", error);
       return null;
-    }finally {
-          // ✅ this always runs, success or error
-          dispatch(setLoading(false));
-          toast.dismiss(toastId);
+    } finally {
+      // ✅ this always runs, success or error
+      dispatch(setLoading(false));
+      toast.dismiss(toastId);
     }
+  };
+};
+
+// signup by admin 
+export function signUpByAdmin(formData) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading");
+    dispatch(setLoading(true));
+
+    try {
+      const response = await apiConnector("POST", SIGNUP_API, formData, {
+        withCredentials: true,
+      });
+
+      console.log("SIGNUP API RESPONSE............", response);
+
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+      toast.success("Signup Successful");
+      
+    } catch (error) {
+      console.log("SIGNUP API ERROR............", error);
+      toast.error("Signup Failed");
+      
+    }
+    dispatch(setLoading(false));
+    toast.dismiss(toastId);
   };
 }
