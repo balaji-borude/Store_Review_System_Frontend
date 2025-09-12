@@ -16,7 +16,11 @@ export const StoreEndpoints={
     CREATE_STORE:BASE_URL+"/store/createStore",
 
     // Get rating here 
-    GET_ALL_RATING:BASE_URL+"/rating/getAllRatings"
+    GET_ALL_RATING:BASE_URL+"/rating/getAllRatings",
+    //create rating 
+    CREATE_RATING:BASE_URL+"/rating/createRating",
+
+    GET_STORE_RATINGS:BASE_URL+"/rating/getStoreRatings"
 };
 
 

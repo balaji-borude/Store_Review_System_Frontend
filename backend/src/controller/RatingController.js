@@ -177,3 +177,51 @@ export const getAllRatings = async (req, res) => {
 //   }
 // };
 
+// get store rating for a particular store 
+// controllers/ratingController.js
+
+// Get all users who rated a store
+export const getStoreRatings = async (req, res) => {
+  try {
+    const { storeId } = req.params;
+
+    if (!storeId) {
+      return res.status(400).json({
+        success: false,
+        message: "Store ID is required",
+      });
+    }
+
+    // Fetch ratings with user details
+    const ratings = await prisma.rating.findMany({
+      where: { storeId: Number(storeId) },
+      include: {
+        user: {
+          select: { id: true, name: true, email: true }, // pick fields you want
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!ratings.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No ratings found for this store",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Ratings fetched successfully",
+      data: ratings,
+    });
+  } catch (error) {
+    console.error("Error fetching ratings:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while fetching store ratings",
+      error: error.message,
+    });
+  }
+};
+

@@ -3,17 +3,24 @@ import { apiConnector } from "../apiConnector";
 import { StoreEndpoints } from "../apis";
 import { setLoading, setStores } from "../../slices/storeSlice";
 
-const { GET_ALL_STORE,GET_ALL_RATING ,CREATE_STORE} = StoreEndpoints;
+const { GET_ALL_STORE,
+  GET_ALL_RATING ,
+  CREATE_STORE,
+  CREATE_RATING,
+    GET_STORE_RATINGS
 
-export function getAllStores() {
+} = StoreEndpoints;
+
+export function getAllStores(token) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading");
     dispatch(setLoading(true));
 
     try {
-      const response = await apiConnector("GET", GET_ALL_STORE);
+      const response = await apiConnector("GET", GET_ALL_STORE, null, // no body for GET
+        { Authorization: `Bearer ${token}` });
 
-      console.log("GET ALLSTORES API RESPONSE............", response);
+      console.log("GET ALLSTORES API RESPONSE---------->", response);
 
       if (!response.data.success) {
         throw new Error(response.data.message);
@@ -104,3 +111,62 @@ export function CreateStore(formData,token) {
     }
   };
 }
+
+
+// create rating 
+export const createRatingApi = async (token, { score, userId, storeId }) => {
+  try {
+    const response = await apiConnector(
+      "POST",
+      CREATE_RATING,
+      { score, userId, storeId },
+      { Authorization: `Bearer ${token}` }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("CREATE RATING ERROR:", error);
+    throw error;
+  }
+};
+
+
+// get store rating for partiular storeid 
+export function getStoreRatingsApi(storeId, token) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Fetching ratings...");
+    dispatch(setLoading(true));
+
+    try {
+      const response = await apiConnector(
+        "GET",
+        `${GET_STORE_RATINGS}/${storeId}`,
+        null,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+
+      console.log("GET STORE RATINGS API RESPONSE............", response);
+
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+
+      toast.success("Fetched ratings successfully");
+
+      // return list of users who rated
+      return response.data.users;
+    } catch (error) {
+      console.log("GET STORE RATINGS API ERROR............", error);
+      toast.error("Failed to fetch ratings");
+      return null;
+    } finally {
+      dispatch(setLoading(false));
+      toast.dismiss(toastId);
+    }
+  };
+};
+
+
+
+

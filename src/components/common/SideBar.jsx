@@ -88,14 +88,20 @@ function SideBar() {
           )}
 
           {/* StoreOwner role */}
-          {user?.role === "StoreOwner" && (
-            <MenuItem
-              icon={<FaEye />}
-              component={<NavLink to="/dashboard/allReview" />}
-            >
-              View All Reviews
-            </MenuItem>
-          )}
+          {
+          user?.role === "StoreOwner" && (
+
+            <>
+            <MenuItem>StoreOwner Dashboard</MenuItem>
+              <MenuItem
+                icon={<FaEye />}
+                component={<NavLink to="/dashboard/allReview" />}
+              >
+                View All Ratings
+              </MenuItem>
+            </>
+          )
+          }
 
           {/* Common */}
           <MenuItem icon={<FaSignOutAlt />} onClick={handleLogout}>

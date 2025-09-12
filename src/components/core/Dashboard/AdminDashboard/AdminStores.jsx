@@ -21,7 +21,7 @@ const AdminStores = () => {
   // Fetch stores
   useEffect(() => {
     const fetchStores = async () => {
-      const res = await dispatch(getAllStores());
+      const res = await dispatch(getAllStores(token));
       if (res) setStores(res);
     };
     fetchStores();
@@ -37,7 +37,7 @@ const AdminStores = () => {
     data.ownerId = Number(data.ownerId); 
     const res = await dispatch(CreateStore(data,token));
       if (res) {
-        const updated = await dispatch(getAllStores());
+        const updated = await dispatch(getAllStores(token));
         setStores(updated);
         reset();
         handleCloseModal();

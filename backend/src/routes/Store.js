@@ -12,7 +12,8 @@ router.put("/updateStore",updateStore);
 router.delete("/deleteStore",deleteStore);
 
 // get all route fakt user bagnar ahe na ==>
-router.get("/getAllStores", getAllStores);
+router.get("/getAllStores",auth, getAllStores);
+
 
 
 export default router;

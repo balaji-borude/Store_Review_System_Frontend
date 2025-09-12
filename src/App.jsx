@@ -21,7 +21,7 @@ import AdminUsers from "./components/core/Dashboard/AdminDashboard/AdminUsers";
 import UserStores from "./components/core/Dashboard/UserDashboard/UserStores";
 
 // owner routes 
-import AllReviews from "./components/core/Dashboard/StoreOwnerDashboard/AllReviews";
+import UserStoreRatings from "./components/core/Dashboard/StoreOwnerDashboard/UserStoreRatings";
 
 
 
@@ -94,14 +94,14 @@ function App() {
           />
 
           {/* User */}
-          <Route
+          {/* <Route
             path="user"
             element={
               <PrivateRoute role="User">
                 <UserDashboard />
               </PrivateRoute>
             }
-          />
+          /> */}
           <Route
             path="stores"
             element={
@@ -112,19 +112,19 @@ function App() {
           />
 
           {/* Store Owner */}
-          <Route
+          {/* <Route
             path="storeowner"
             element={
               <PrivateRoute role="StoreOwner">
                 <StoreOwnerDashboard />
               </PrivateRoute>
             }
-          />
+          /> */}
           <Route
-            path="allReview"
+            path="allRating"
             element={
               <PrivateRoute role="StoreOwner">
-                <AllReviews />
+                <UserStoreRatings />
               </PrivateRoute>
             }
           />
