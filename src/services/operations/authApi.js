@@ -72,9 +72,9 @@ export function LoginApi(formData, navigate) {
       if (role === "Admin") {
         navigate("dashboard/admin/overview");
       } else if (role === "StoreOwner") {
-        navigate("/dashboard/storeowner");
+        navigate("/dashboard/allRating");
       } else {
-        navigate("/dashboard/user");
+        navigate("/dashboard/stores");
       }
     } catch (error) {
       console.log("LOGI API ERROR............", error);

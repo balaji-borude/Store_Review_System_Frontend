@@ -26,7 +26,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchStores = async () => {
-      const stores = await dispatch(getAllStores());
+      const stores = await dispatch(getAllStores(token));
       if (stores) {
         setStoreCount(stores.length);
       }
