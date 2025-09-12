@@ -170,15 +170,16 @@ export const changePassword = async (req, res) => {
 
 export const getAllUser = async (req, res) => {
   try {
+    // where: {role: "User",   // only users with role = "User"}
+       
     const users = await prisma.user.findMany({
-      where: {
-        role: "User",   // only users with role = "User"
-      },
+     
       select: {
         id: true,
         name: true,
         email: true,
         role: true,
+        address:true,
         createdAt: true, 
       },
     });

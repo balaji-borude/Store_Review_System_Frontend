@@ -34,7 +34,8 @@ export const createStore = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ 
         success: false, 
-        message: error.message 
+        message: "Isuue in Store Creation", 
+        error:error.message 
     });
   }
 };
@@ -106,23 +107,63 @@ export const deleteStore = async (req, res) => {
 };
 
 // get all stores 
+// export const getAllStores = async (req, res) => {
+//   try {
+//     const stores = await prisma.store.findMany({
+//       orderBy: { createdAt: "desc" }, 
+//     });
+
+//     // if (!stores || stores.length === 0) {
+//     //   return res.status(404).json({
+//     //     success: false,
+//     //     message: "No stores found",
+//     //   });
+//     // }
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Stores fetched successfully",
+//       data: stores,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       message: "Error fetching stores",
+//       error: error.message,
+//     });
+//   }
+// };
+
+// with avg rating 
 export const getAllStores = async (req, res) => {
   try {
     const stores = await prisma.store.findMany({
-      orderBy: { createdAt: "desc" }, 
+      orderBy: { createdAt: "desc" },
+      include: {
+        ratings: {
+          select: { score: true }, // fetch only score field
+        },
+      },
     });
 
-    // if (!stores || stores.length === 0) {
-    //   return res.status(404).json({
-    //     success: false,
-    //     message: "No stores found",
-    //   });
-    // }
+    // Add avgRating to each store
+    const storesWithRatings = stores.map((store) => {
+      const scores = store.ratings.map((r) => r.score);
+      const avgRating =
+        scores.length > 0
+          ? scores.reduce((sum, val) => sum + val, 0) / scores.length
+          : 0;
+
+      return {
+        ...store,
+        avgRating: Number(avgRating.toFixed(1)), // round to 1 decimal
+      };
+    });
 
     return res.status(200).json({
       success: true,
-      message: "Stores fetched successfully",
-      data: stores,
+      message: "Stores fetched successfully with ratings",
+      data: storesWithRatings,
     });
   } catch (error) {
     return res.status(500).json({
@@ -132,4 +173,3 @@ export const getAllStores = async (req, res) => {
     });
   }
 };
-

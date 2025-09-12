@@ -1,13 +1,13 @@
 import express from "express";
 import {createStore,updateStore,deleteStore,getAllStores} from "../controller/StoreController.js";
-import {isAdmin} from '../middlewares/auth.js'
+import {auth} from '../middlewares/auth.js'
 
 // TODO ==> have to add middlwares 
 
 
 const router = express.Router();
 
-router.post("/createStore",isAdmin, createStore);
+router.post("/createStore",auth, createStore);
 router.put("/updateStore",updateStore);
 router.delete("/deleteStore",deleteStore);
 
