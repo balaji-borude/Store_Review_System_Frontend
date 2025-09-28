@@ -5,7 +5,7 @@ const OpenRoute = ({ children }) => {
   const { token } = useSelector((state) => state.auth);
 
   if (token) {
-    // already logged in → block access to login/signup
+   
     return <Navigate to="/dashboard" replace />;
   }
 
